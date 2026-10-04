@@ -1,239 +1,1279 @@
-vv<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Interactive Scroll Logo Showcase</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khajani Welfare Society | Empowering Artisans & Braj Surbhi Heritage</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              gold: '#C5A059',
+              amber: '#E09F3E',
+              crimson: '#9B1D20',
+              deepGreen: '#1C312E',
+              sand: '#FAF7EE',
+              charcoal: '#0C0F12',
+              cardBg: 'rgba(255, 255, 255, 0.85)'
+            }
+          },
+          fontFamily: {
+            serif: ['Cinzel', 'Playfair Display', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts & FontAwesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
   <style>
-    :root {
-      --bg: #0b0f19;
-      --card-bg: rgba(255, 255, 255, 0.04);
-      --accent: #6366f1;
-      --text: #f1f5f9;
-      --text-muted: #94a3b8;
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0c0f12;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #C5A059;
+      border-radius: 4px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    /* 3D Perspective Context */
+    .perspective-1000 {
+      perspective: 1000px;
     }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      min-height: 250vh;
-      overflow-x: hidden;
-    }
-
-    /* Fixed top navigation bar */
-    .navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 80px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 2.5rem;
-      background: rgba(11, 15, 25, 0.75);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      z-index: 1000;
-      perspective: 1000px; /* Essential for 3D rotation depth */
-    }
-
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      text-decoration: none;
-      color: inherit;
-    }
-
-    /* Scroll-reactive logo styles */
-    .scroll-logo {
-      width: 52px;
-      height: 52px;
-      object-fit: contain;
-      transform-origin: center center;
+    .transform-style-3d {
       transform-style: preserve-3d;
-      will-change: transform, filter;
-      transition: filter 0.2s ease;
-      filter: drop-shadow(0 4px 10px rgba(99, 102, 241, 0.3));
-
-      /* Modern pure-CSS scroll animation */
-      animation: flipAndGlow linear both;
-      animation-timeline: scroll(root block);
-      animation-range: 0px 450px;
     }
 
-    .brand-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      background: linear-gradient(135deg, #fff 40%, var(--accent));
+    /* Header Nav Logo Scroll Reactivity */
+    #navKwsLogo {
+      will-change: transform, filter;
+      transition: filter 0.25s ease-out;
+    }
+
+    /* Translucent Impact Parallax Backdrop */
+    .impact-parallax-bg {
+      background-image: linear-gradient(to bottom, rgba(12, 15, 18, 0.85), rgba(12, 15, 18, 0.45), rgba(12, 15, 18, 0.95)),
+                        url('https://res.cloudinary.com/dpeijmtb6/image/upload/v1787156772/1_20260819_214341_0000_jcziap.png');
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    /* Golden text gradient */
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #F3E7C4 0%, #D4AF37 50%, #AA7C11 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    .nav-links {
-      display: flex;
-      gap: 1.5rem;
-      list-style: none;
+    .border-gold-glow {
+      border: 1px solid rgba(197, 160, 89, 0.35);
+      box-shadow: 0 4px 20px -2px rgba(197, 160, 89, 0.15);
+    }
+    
+    .border-gold-glow:hover {
+      border-color: rgba(224, 159, 62, 0.7);
+      box-shadow: 0 8px 30px rgba(197, 160, 89, 0.3);
     }
 
-    .nav-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.95rem;
-      transition: color 0.2s ease;
+    /* Floating / Glow Keyframes */
+    @keyframes subtleFloat {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(1deg); }
+    }
+    .animate-float {
+      animation: subtleFloat 6s ease-in-out infinite;
     }
 
-    .nav-links a:hover {
-      color: #ffffff;
-    }
-
-    /* Page Content */
-    .hero {
-      max-width: 900px;
-      margin: 180px auto 60px;
-      padding: 0 1.5rem;
-      text-align: center;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 0.4rem 1rem;
-      border-radius: 9999px;
-      background: rgba(99, 102, 241, 0.15);
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      color: #a5b4fc;
-      font-size: 0.85rem;
-      margin-bottom: 1.5rem;
-      font-weight: 500;
-    }
-
-    h1 {
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      line-height: 1.15;
-      font-weight: 800;
-      margin-bottom: 1.2rem;
-      letter-spacing: -0.03em;
-    }
-
-    p.lead {
-      color: var(--text-muted);
-      font-size: 1.15rem;
-      line-height: 1.7;
-      max-width: 650px;
-      margin: 0 auto 3rem;
-    }
-
-    .cards-grid {
-      max-width: 1000px;
-      margin: 0 auto 100px;
-      padding: 0 1.5rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 1rem;
-      padding: 2rem;
-      backdrop-filter: blur(10px);
-    }
-
-    .card h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .card p {
-      color: var(--text-muted);
-      line-height: 1.6;
-      font-size: 0.95rem;
-    }
-
-    /* Keyframes for full 3D flip as scroll progresses */
-    @keyframes flipAndGlow {
-      0% {
-        transform: rotateY(0deg) scale(1);
-        filter: drop-shadow(0 4px 10px rgba(99, 102, 241, 0.25));
-      }
-      50% {
-        transform: rotateY(180deg) scale(0.85);
-        filter: drop-shadow(0 0 22px rgba(99, 102, 241, 0.6));
-      }
-      100% {
-        transform: rotateY(360deg) scale(0.9);
-        filter: drop-shadow(0 2px 8px rgba(99, 102, 241, 0.35));
-      }
+    /* Catalog Page Transition Flip */
+    .page-sheet {
+      box-shadow: 0 20px 45px rgba(0,0,0,0.3), 0 0 0 1px rgba(197,160,89,0.2);
     }
   </style>
 </head>
-<body>
 
-  <nav class="navbar">
-    <a href="#" class="nav-brand">
-      <img 
-        src="https://res.cloudinary.com/dpeijmtb6/image/upload/f_auto,q_auto,w_120/v1780481420/yjrsvaizrmprlbrrdsde.png" 
-        alt="Brand Logo" 
-        class="scroll-logo"
-      />
-      <span class="brand-title">Studio</span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#projects">Work</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+<body class="bg-[#FAF7EE] text-gray-800 antialiased font-sans overflow-x-hidden selection:bg-brand-gold selection:text-white">
 
-  <main>
-    <section class="hero">
-      <span class="badge">Scroll Down</span>
-      <h1>Watch your logo react dynamically</h1>
-      <p class="lead">
-        As you scroll down the page, the logo in the top bar rotates 360 degrees in 3D space with a reactive lighting glow, shrinking slightly to preserve header space.
+  <!-- Top Accreditation Ribbon -->
+  <div class="bg-brand-deepGreen text-amber-100 text-xs py-2 px-4 border-b border-brand-gold/30">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center justify-center bg-brand-gold text-brand-charcoal text-[10px] font-bold px-2 py-0.5 rounded">
+          AFFILIATIONS
+        </span>
+        <span class="tracking-wide">Recognized Skill Partner &bull; UP Skill Development Mission &bull; ODOP Uttar Pradesh</span>
+      </div>
+      <div class="flex items-center gap-4 text-[11px]">
+        <span class="hidden md:inline-flex items-center gap-1">
+          <i class="fa-solid fa-certificate text-brand-gold"></i> GI Certified Crafts
+        </span>
+        <span class="hidden md:inline-flex items-center gap-1">
+          <i class="fa-solid fa-location-dot text-brand-gold"></i> Mathura &bull; Braj Bhumi
+        </span>
+        <button onclick="openModal('contactModal')" class="hover:text-white underline underline-offset-2">Artisan Support Desk</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky Interactive Header -->
+  <header id="mainHeader" class="sticky top-0 z-50 transition-all duration-300 bg-white/95 backdrop-blur-md shadow-sm border-b border-amber-900/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20 transition-all duration-300" id="navContainer">
+        
+        <!-- Interactive Brand & Scroll Reacting Logo -->
+        <a href="#hero" class="flex items-center gap-3.5 group perspective-1000">
+          <div class="relative w-12 h-12 flex items-center justify-center">
+            <img 
+              id="navKwsLogo" 
+              src="https://res.cloudinary.com/dpeijmtb6/image/upload/f_auto,q_auto,w_180/v1780481420/yjrsvaizrmprlbrrdsde.png" 
+              alt="Khajani Welfare Society Logo" 
+              class="w-12 h-12 object-contain drop-shadow transform-style-3d cursor-pointer"
+            />
+          </div>
+          <div class="flex flex-col">
+            <span class="font-serif font-bold text-lg md:text-xl text-brand-deepGreen tracking-tight group-hover:text-brand-crimson transition-colors">
+              Khajani Welfare Society
+            </span>
+            <span class="text-[10px] uppercase font-semibold tracking-widest text-brand-gold">
+              Empowerment &bull; Heritage &bull; Crafts
+            </span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden lg:flex items-center space-x-7 text-sm font-medium text-gray-700">
+          <a href="#about" class="hover:text-brand-crimson transition">About KWS</a>
+          <a href="#impact" class="hover:text-brand-crimson transition">Area of Impact</a>
+          <a href="#braj-surbhi" class="text-brand-crimson font-semibold hover:text-amber-800 transition flex items-center gap-1">
+            <i class="fa-solid fa-spa text-xs"></i> Braj Surbhi
+          </a>
+          <a href="#exhibitions" class="hover:text-brand-crimson transition">Recent Exhibitions</a>
+          <a href="#catalogue" class="hover:text-brand-crimson transition">Product Catalogue</a>
+          <a href="#partners" class="hover:text-brand-crimson transition">Accreditations</a>
+        </nav>
+
+        <!-- Right Quick Actions -->
+        <div class="hidden sm:flex items-center gap-3">
+          <button onclick="openModal('catalogueInquiryModal')" class="text-xs uppercase tracking-wider font-semibold px-4 py-2 rounded-full border border-brand-gold text-amber-900 hover:bg-brand-gold/10 transition">
+            Inquire Bulk
+          </button>
+          <button onclick="openModal('donateModal')" class="text-xs uppercase tracking-wider font-semibold px-4 py-2 rounded-full bg-brand-crimson hover:bg-[#801416] text-white shadow-md hover:shadow-lg transition">
+            Support Artisans
+          </button>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobileMenuBtn" aria-label="Toggle Menu" class="lg:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100">
+          <i class="fa-solid fa-bars text-xl"></i>
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div id="mobileMenu" class="hidden lg:hidden bg-white border-b border-gray-200 px-4 pt-2 pb-6 space-y-3">
+      <a href="#about" class="block py-2 text-gray-700 font-medium border-b border-gray-100 mobile-link">About KWS</a>
+      <a href="#impact" class="block py-2 text-gray-700 font-medium border-b border-gray-100 mobile-link">Area of Impact</a>
+      <a href="#braj-surbhi" class="block py-2 text-brand-crimson font-semibold border-b border-gray-100 mobile-link">Braj Surbhi Project</a>
+      <a href="#exhibitions" class="block py-2 text-gray-700 font-medium border-b border-gray-100 mobile-link">Recent Exhibitions (UPITS)</a>
+      <a href="#catalogue" class="block py-2 text-gray-700 font-medium border-b border-gray-100 mobile-link">Product Catalogue</a>
+      <a href="#partners" class="block py-2 text-gray-700 font-medium mobile-link">Accreditations & GI Tag</a>
+      <div class="pt-2 flex flex-col gap-2">
+        <button onclick="openModal('donateModal')" class="w-full text-center text-sm font-semibold py-2.5 rounded-lg bg-brand-crimson text-white">Support Artisans</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="hero" class="relative overflow-hidden bg-gradient-to-b from-[#FAF7EE] via-[#F4EDE0] to-[#FAF7EE] py-16 md:py-24 border-b border-amber-900/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Left Hero Copy -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-100 border border-brand-gold/40 text-amber-900 text-xs font-semibold">
+            <span class="w-2 h-2 rounded-full bg-green-600 animate-pulse"></span>
+            Empowering Traditional Women Artisans of Braj & Uttar Pradesh
+          </div>
+
+          <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold text-brand-deepGreen leading-[1.15]">
+            Reviving Sacred Heritage, <br>
+            <span class="text-brand-crimson italic font-normal">Empowering Rural Lives</span>
+          </h1>
+
+          <p class="text-gray-700 text-base md:text-lg leading-relaxed max-w-2xl font-normal">
+            Inspired by the selfless principles of grassroots development and institutional stewardship, <strong>Khajani Welfare Society (KWS)</strong> bridges traditional craftsmanship with sustainable livelihood programs across Mathura, Uttar Pradesh, and northern artisan clusters.
+          </p>
+
+          <!-- Badges Cluster -->
+          <div class="flex flex-wrap items-center gap-4 pt-2">
+            <div class="flex items-center gap-2 bg-white px-3.5 py-2 rounded-xl shadow-sm border border-amber-900/10">
+              <img src="https://res.cloudinary.com/dpeijmtb6/image/upload/v1791130322/GI-Tag-logo_ago2zh.png" alt="GI Tag Registered" class="h-8 object-contain">
+              <div class="text-left">
+                <p class="text-[10px] text-gray-500 uppercase font-semibold">Authorized</p>
+                <p class="text-xs font-bold text-gray-800">GI Tag Crafts</p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 bg-white px-3.5 py-2 rounded-xl shadow-sm border border-amber-900/10">
+              <img src="https://res.cloudinary.com/dpeijmtb6/image/upload/v1791130301/ODOP_qwewmu.png" alt="ODOP UP" class="h-8 object-contain">
+              <div class="text-left">
+                <p class="text-[10px] text-gray-500 uppercase font-semibold">Flagship Partner</p>
+                <p class="text-xs font-bold text-gray-800">ODOP UP</p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 bg-white px-3.5 py-2 rounded-xl shadow-sm border border-amber-900/10">
+              <img src="https://res.cloudinary.com/dpeijmtb6/image/upload/v1791130338/u-p-skill-development-mission-logo-png_seeklogo-428101_t2huvn.png" alt="UPSDM" class="h-8 object-contain">
+              <div class="text-left">
+                <p class="text-[10px] text-gray-500 uppercase font-semibold">Recognized By</p>
+                <p class="text-xs font-bold text-gray-800">UPSDM</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero CTAs -->
+          <div class="flex flex-wrap gap-4 pt-4">
+            <a href="#catalogue" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-brand-deepGreen text-white font-medium hover:bg-brand-crimson transition shadow-md">
+              <i class="fa-solid fa-book-open"></i> Browse 2026 Catalogue
+            </a>
+            <a href="#braj-surbhi" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white border border-brand-gold text-amber-950 font-medium hover:bg-amber-50 transition shadow-sm">
+              <i class="fa-solid fa-fire-burner text-amber-700"></i> Explore Braj Surbhi
+            </a>
+          </div>
+
+        </div>
+
+        <!-- Right Hero 3D Card / Emblem Feature -->
+        <div class="lg:col-span-5 flex justify-center">
+          <div class="relative w-full max-w-md bg-white rounded-3xl p-6 shadow-xl border border-brand-gold/30 text-center">
+            
+            <div class="absolute -top-4 -right-4 bg-brand-gold text-brand-charcoal text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">
+              Official Partner
+            </div>
+
+            <!-- Rotating Showcase of KWS and Braj Surbhi -->
+            <div class="relative w-44 h-44 mx-auto my-4 flex items-center justify-center p-3 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 shadow-inner">
+              <img 
+                src="https://res.cloudinary.com/dpeijmtb6/image/upload/f_auto,q_auto,w_400/v1780481420/yjrsvaizrmprlbrrdsde.png" 
+                alt="Khajani Welfare Society Emblem" 
+                class="w-36 h-36 object-contain animate-float"
+              />
+            </div>
+
+            <h3 class="font-serif font-bold text-xl text-brand-deepGreen">Khajani Welfare Society</h3>
+            <p class="text-xs text-gray-600 mt-1 mb-4">Dedicated to Rural Skills, Women's Self-Help Groups (SHGs) and Indigenous GI Tag Sanjhi & Brass Traditions.</p>
+
+            <div class="grid grid-cols-3 gap-2 border-t border-gray-100 pt-4 text-center">
+              <div>
+                <span class="block font-serif font-bold text-lg text-brand-crimson" id="counterArtisans">5,200+</span>
+                <span class="text-[10px] text-gray-500 uppercase">Artisans</span>
+              </div>
+              <div class="border-x border-gray-100">
+                <span class="block font-serif font-bold text-lg text-brand-crimson">240+</span>
+                <span class="text-[10px] text-gray-500 uppercase">Women SHGs</span>
+              </div>
+              <div>
+                <span class="block font-serif font-bold text-lg text-brand-crimson">100%</span>
+                <span class="text-[10px] text-gray-500 uppercase">Eco Natural</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- About Society & Tata Trust Inspiration -->
+  <section id="about" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="max-w-3xl mx-auto text-center mb-16">
+        <span class="text-xs uppercase tracking-widest text-brand-gold font-bold">Stewardship &bull; Craftsmanship &bull; Integrity</span>
+        <h2 class="font-serif text-3xl md:text-4xl font-bold text-brand-deepGreen mt-2">
+          Rooted in Heritage, Driven by Purpose
+        </h2>
+        <div class="w-16 h-1 bg-brand-gold mx-auto my-4 rounded-full"></div>
+        <p class="text-gray-600 text-sm md:text-base leading-relaxed">
+          Inspired by pioneering welfare trusts like the Sir Dorabji Tata Trust (sdtt.in) and community foundations, KWS focuses on sustainable rural livelihood models that allow traditional artisans to retain ownership of their heritage while reaching modern domestic and global export markets.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Pillar 1 -->
+        <div class="bg-amber-50/50 rounded-2xl p-8 border border-amber-900/10 hover:shadow-lg transition">
+          <div class="w-12 h-12 rounded-xl bg-brand-deepGreen text-brand-gold flex items-center justify-center text-xl mb-6 shadow">
+            <i class="fa-solid fa-hands-holding-child"></i>
+          </div>
+          <h3 class="font-serif font-bold text-xl text-gray-900 mb-2">Self Help Group Mobilization</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">
+            Forming decentralized village-level micro-enterprises where women produce sacred havan samagri, dhoop batti, temple flower incense, and textile arts.
+          </p>
+        </div>
+
+        <!-- Pillar 2 -->
+        <div class="bg-amber-50/50 rounded-2xl p-8 border border-amber-900/10 hover:shadow-lg transition">
+          <div class="w-12 h-12 rounded-xl bg-brand-crimson text-white flex items-center justify-center text-xl mb-6 shadow">
+            <i class="fa-solid fa-stamp"></i>
+          </div>
+          <h3 class="font-serif font-bold text-xl text-gray-900 mb-2">GI Tag & ODOP Preservation</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">
+            Protecting geographical identity credentials for Mathura metalcraft, Sanjhi paper stencils, and regional indigenous incense formulations.
+          </p>
+        </div>
+
+        <!-- Pillar 3 -->
+        <div class="bg-amber-50/50 rounded-2xl p-8 border border-amber-900/10 hover:shadow-lg transition">
+          <div class="w-12 h-12 rounded-xl bg-amber-700 text-amber-100 flex items-center justify-center text-xl mb-6 shadow">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <h3 class="font-serif font-bold text-xl text-gray-900 mb-2">UPSDM Certified Training</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">
+            Formalizing artisan skills via certified curriculum under the Uttar Pradesh Skill Development Mission to guarantee fair market wages and dignified employment.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Translucent Area of Impact (Scroll Reveal Effect) -->
+  <section id="impact" class="relative py-28 impact-parallax-bg text-white overflow-hidden">
+    
+    <!-- Top and Bottom Blending Gradients -->
+    <div class="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#FAF7EE] to-transparent pointer-events-none"></div>
+    <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#FAF7EE] to-transparent pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="inline-block px-3 py-1 rounded-full bg-brand-gold/20 border border-brand-gold/40 text-brand-gold text-xs font-semibold uppercase tracking-widest mb-3">
+          Translucent Scroll Window
+        </span>
+        <h2 class="font-serif text-3xl md:text-5xl font-bold tracking-tight text-white">
+          Our Area of Impact
+        </h2>
+        <p class="text-gray-300 text-sm md:text-base mt-4 max-w-2xl mx-auto">
+          As you scroll, the backdrop of our craft production reveals the direct transformation taking place inside rural homes, temple flower collection nodes, and artisan ateliers.
+        </p>
+      </div>
+
+      <!-- Translucent Glass Cards Grid that reacts on scroll -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Impact Metric 1 -->
+        <div class="backdrop-blur-md bg-black/40 border border-white/15 rounded-2xl p-6 text-center transform transition duration-300 hover:-translate-y-2 hover:bg-black/55 hover:border-brand-gold">
+          <div class="text-3xl text-brand-gold mb-3">
+            <i class="fa-solid fa-users-gear"></i>
+          </div>
+          <div class="font-serif text-3xl font-extrabold text-white mb-1">5,200+</div>
+          <div class="text-xs uppercase tracking-wider text-amber-200 font-semibold mb-2">Artisans Trained</div>
+          <p class="text-xs text-gray-300">Empowering women with micro-enterprise development and mechanized natural incense rolling.</p>
+        </div>
+
+        <!-- Impact Metric 2 -->
+        <div class="backdrop-blur-md bg-black/40 border border-white/15 rounded-2xl p-6 text-center transform transition duration-300 hover:-translate-y-2 hover:bg-black/55 hover:border-brand-gold">
+          <div class="text-3xl text-amber-400 mb-3">
+            <i class="fa-solid fa-recycle"></i>
+          </div>
+          <div class="font-serif text-3xl font-extrabold text-white mb-1">120+ Tons</div>
+          <div class="text-xs uppercase tracking-wider text-amber-200 font-semibold mb-2">Temple Flowers Recycled</div>
+          <p class="text-xs text-gray-300">Diverting sacred temple floral waste from Yamuna river to create 100% charcoal-free incense sticks.</p>
+        </div>
+
+        <!-- Impact Metric 3 -->
+        <div class="backdrop-blur-md bg-black/40 border border-white/15 rounded-2xl p-6 text-center transform transition duration-300 hover:-translate-y-2 hover:bg-black/55 hover:border-brand-gold">
+          <div class="text-3xl text-red-400 mb-3">
+            <i class="fa-solid fa-store"></i>
+          </div>
+          <div class="font-serif text-3xl font-extrabold text-white mb-1">15+ States</div>
+          <div class="text-xs uppercase tracking-wider text-amber-200 font-semibold mb-2">Exhibition Footprint</div>
+          <p class="text-xs text-gray-300">Representing UP ODOP and GI tags at international trade fairs, IITF Delhi, and UPITS Greater Noida.</p>
+        </div>
+
+        <!-- Impact Metric 4 -->
+        <div class="backdrop-blur-md bg-black/40 border border-white/15 rounded-2xl p-6 text-center transform transition duration-300 hover:-translate-y-2 hover:bg-black/55 hover:border-brand-gold">
+          <div class="text-3xl text-green-400 mb-3">
+            <i class="fa-solid fa-leaf"></i>
+          </div>
+          <div class="font-serif text-3xl font-extrabold text-white mb-1">100% Pure</div>
+          <div class="text-xs uppercase tracking-wider text-amber-200 font-semibold mb-2">Panchgavya & Herbs</div>
+          <p class="text-xs text-gray-300">Natural havan cups infused with indigenous cow ghee, camphor, guggul, and Himalayan jatamansi.</p>
+        </div>
+
+      </div>
+
+      <!-- Real-time scroll indicator bar for impact window -->
+      <div class="mt-12 max-w-md mx-auto bg-white/10 rounded-full h-1.5 overflow-hidden backdrop-blur-sm border border-white/20">
+        <div id="impactScrollProgress" class="bg-gradient-to-r from-amber-400 to-brand-gold h-full w-0 transition-all duration-75"></div>
+      </div>
+      <p class="text-center text-[11px] text-gray-300 uppercase tracking-widest mt-2">Scroll Transparency Active</p>
+
+    </div>
+  </section>
+
+  <!-- Flagship Project: Braj Surbhi -->
+  <section id="braj-surbhi" class="py-24 bg-[#FAF7EE] border-b border-amber-900/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="bg-white rounded-3xl p-8 md:p-14 shadow-xl border border-brand-gold/30">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          <!-- Braj Surbhi Logo & Emblem -->
+          <div class="lg:col-span-5 text-center">
+            <div class="relative inline-block p-6 rounded-3xl bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100 border border-brand-gold/40 shadow-md">
+              <img 
+                src="https://res.cloudinary.com/dpeijmtb6/image/upload/f_auto,q_auto,w_500/v1791130454/file_00000000d9748246822b57ba7ad9acd6_ey0rri.png" 
+                alt="Braj Surbhi - Project by Khajani Welfare Society" 
+                class="w-64 h-64 object-contain mx-auto transition-transform duration-500 hover:scale-105"
+              />
+              <div class="mt-4 px-3 py-1 rounded-full bg-brand-crimson text-white text-xs font-semibold inline-block">
+                Flagship Project &bull; Mathura
+              </div>
+            </div>
+            <p class="text-xs text-gray-500 mt-3 font-medium">Braj Surbhi Brand Mark &bull; All Rights Reserved KWS</p>
+          </div>
+
+          <!-- Description and Offerings -->
+          <div class="lg:col-span-7 space-y-6">
+            <div class="inline-flex items-center gap-2 text-brand-crimson text-xs uppercase font-bold tracking-wider">
+              <i class="fa-solid fa-spa"></i> Sacred Fragrances & Spiritual Ecology
+            </div>
+
+            <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brand-deepGreen">
+              Braj Surbhi: Pure Aromas from the Divine Groves of Vrindavan
+            </h2>
+
+            <p class="text-gray-700 leading-relaxed text-sm md:text-base">
+              <strong>Braj Surbhi</strong> is the signature socio-spiritual initiative created by Khajani Welfare Society. By collecting sacred temple flower offerings from historic pilgrimage shrines across Mathura, Vrindavan, and Govardhan, our rural women artisans transform floral botanicals into chemical-free, charcoal-free dhoop, havan samagri, and essential incense.
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+              <div class="flex items-start gap-3 p-3 bg-amber-50/70 rounded-xl border border-amber-200">
+                <i class="fa-solid fa-feather text-brand-crimson mt-1 text-sm"></i>
+                <div>
+                  <h4 class="text-xs font-bold text-gray-900 uppercase">Charcoal-Free Dhoop</h4>
+                  <p class="text-xs text-gray-600">Zero black carbon smoke. Gentle on lungs and ideal for daily home pooja.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3 p-3 bg-amber-50/70 rounded-xl border border-amber-200">
+                <i class="fa-solid fa-bowl-rice text-brand-gold mt-1 text-sm"></i>
+                <div>
+                  <h4 class="text-xs font-bold text-gray-900 uppercase">Ready Havan Cups</h4>
+                  <p class="text-xs text-gray-600">Pure cow dung charcoal cups infused with loban, camphor, and cow ghee.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3 p-3 bg-amber-50/70 rounded-xl border border-amber-200">
+                <i class="fa-solid fa-spray-can text-brand-deepGreen mt-1 text-sm"></i>
+                <div>
+                  <h4 class="text-xs font-bold text-gray-900 uppercase">Natural Itra & Attars</h4>
+                  <p class="text-xs text-gray-600">Hydro-distilled pure rose, sandalwood, and khus essences from regional stills.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3 p-3 bg-amber-50/70 rounded-xl border border-amber-200">
+                <i class="fa-solid fa-heart-circle-check text-green-700 mt-1 text-sm"></i>
+                <div>
+                  <h4 class="text-xs font-bold text-gray-900 uppercase">Direct Artisan Income</h4>
+                  <p class="text-xs text-gray-600">100% of proceeds directly fund our women artisan cooperatives.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-4 flex flex-wrap gap-4">
+              <button onclick="openModal('catalogueInquiryModal')" class="px-6 py-3 rounded-full bg-brand-crimson text-white text-xs uppercase tracking-wider font-semibold hover:bg-[#7e1416] transition shadow-md">
+                Order Braj Surbhi Collection
+              </button>
+              <a href="#catalogue" class="px-6 py-3 rounded-full bg-gray-100 text-gray-800 text-xs uppercase tracking-wider font-semibold hover:bg-gray-200 transition">
+                View in Catalogue (Pages 1-4)
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Dedicated Recent Exhibitions Column & Pavilion Section -->
+  <section id="exhibitions" class="py-24 bg-white border-b border-amber-900/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-14">
+        <div>
+          <span class="text-xs uppercase tracking-widest text-brand-crimson font-bold">Trade Fairs &bull; Expos &bull; State Delegations</span>
+          <h2 class="font-serif text-3xl md:text-4xl font-bold text-brand-deepGreen mt-1">
+            Recent Exhibitions & Trade Fairs
+          </h2>
+          <p class="text-gray-600 text-sm mt-2 max-w-xl">
+            Highlighting our active participation in global expos, state trade shows, and GI craft pavilions.
+          </p>
+        </div>
+
+        <div class="mt-4 md:mt-0">
+          <div class="inline-flex items-center gap-2 bg-amber-50 px-4 py-2 rounded-xl border border-amber-300">
+            <img src="https://res.cloudinary.com/dpeijmtb6/image/upload/v1790191456/UPITS-2026-logo-s-min_nfitgu.png" alt="UPITS 2026 Logo" class="h-9 object-contain">
+            <div>
+              <span class="text-[10px] text-gray-500 font-bold uppercase block">Official Exhibitor</span>
+              <span class="text-xs font-extrabold text-brand-deepGreen">UPITS 2026 &bull; Greater Noida</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exhibitions 3-Column Layout -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Exhibition Card 1: UPITS 2026 -->
+        <div class="rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between bg-white group">
+          <div>
+            <div class="relative h-48 bg-gradient-to-br from-amber-100 to-amber-200 overflow-hidden flex items-center justify-center p-6">
+              <img 
+                src="https://res.cloudinary.com/dpeijmtb6/image/upload/f_auto,q_auto,w_400/v1790191456/UPITS-2026-logo-s-min_nfitgu.png" 
+                alt="UP International Trade Show 2026" 
+                class="max-h-36 object-contain group-hover:scale-105 transition-transform duration-300"
+              />
+              <span class="absolute top-3 left-3 bg-brand-deepGreen text-white text-[10px] font-bold px-2.5 py-1 rounded uppercase tracking-wider">
+                India Expo Mart
+              </span>
+            </div>
+            
+            <div class="p-6">
+              <div class="flex items-center gap-2 text-xs text-amber-700 font-semibold mb-2">
+                <i class="fa-regular fa-calendar-check"></i> Flagship Trade Show
+              </div>
+              <h3 class="font-serif font-bold text-lg text-gray-900 group-hover:text-brand-crimson transition">
+                UP International Trade Show (UPITS)
+              </h3>
+              <p class="text-xs text-gray-600 mt-2 leading-relaxed">
+                Staged at India Expo Centre & Mart, Greater Noida. KWS showcased Mathura ODOP offerings, Braj Surbhi incense lines, and GI paper stenciling to international trade delegations.
+              </p>
+            </div>
+          </div>
+
+          <div class="px-6 pb-6 pt-2 border-t border-gray-100 flex items-center justify-between">
+            <span class="text-[11px] font-bold text-gray-500 uppercase">Hall 3 &bull; ODOP Pavilion</span>
+            <button onclick="openModal('catalogueInquiryModal')" class="text-xs font-bold text-brand-crimson hover:underline">
+              View Expo Booth Notes &rarr;
+            </button>
+          </div>
+        </div>
+
+        <!-- Exhibition Card 2: GI Tag & Crafts Pavilion -->
+        <div class="rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between bg-white group">
+          <div>
+            <div class="relative h-48 bg-gradient-to-br from-emerald-50 to-green-100 overflow-hidden flex items-center justify-center p-6">
+              <img 
+                src="https://res.cloudinary.com/dpeijmtb6/image/upload/f_auto,q_auto,w_350/v1791130322/GI-Tag-logo_ago2zh.png" 
+                alt="GI Tag National Pavilion" 
+                class="max-h-32 object-contain group-hover:scale-105 transition-transform duration-300"
+              />
+              <span class="absolute top-3 left-3 bg-green-800 text-white text-[10px] font-bold px-2.5 py-1 rounded uppercase tracking-wider">
+                GI Authorized
+              </span>
+            </div>
+            
+            <div class="p-6">
+              <div class="flex items-center gap-2 text-xs text-green-800 font-semibold mb-2">
+                <i class="fa-solid fa-stamp"></i> National Heritage
+              </div>
+              <h3 class="font-serif font-bold text-lg text-gray-900 group-hover:text-brand-crimson transition">
+                National GI Crafts & Artisans Conclave
+              </h3>
+              <p class="text-xs text-gray-600 mt-2 leading-relaxed">
+                Special exhibition booth dedicated to preserving indigenous Geographical Indication crafts from western Uttar Pradesh, featuring live demonstrations by master artisan trainees.
+              </p>
+            </div>
+          </div>
+
+          <div class="px-6 pb-6 pt-2 border-t border-gray-100 flex items-center justify-between">
+            <span class="text-[11px] font-bold text-gray-500 uppercase">New Delhi & Lucknow</span>
+            <button onclick="openModal('catalogueInquiryModal')" class="text-xs font-bold text-brand-crimson hover:underline">
+              Request Certificate &rarr;
+            </button>
+          </div>
+        </div>
+
+        <!-- Exhibition Card 3: UPSDM Skill Showcase & Hunar Haat -->
+        <div class="rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between bg-white group">
+          <div>
+            <div class="relative h-48 bg-gradient-to-br from-orange-50 to-amber-100 overflow-hidden flex items-center justify-center p-6">
+              <img 
+                src="https://res.cloudinary.com/dpeijmtb6/image/upload/f_auto,q_auto,w_350/v1791130301/ODOP_qwewmu.png" 
+                alt="ODOP UP Exhibition Booth" 
+                class="max-h-32 object-contain group-hover:scale-105 transition-transform duration-300"
+              />
+              <span class="absolute top-3 left-3 bg-amber-800 text-white text-[10px] font-bold px-2.5 py-1 rounded uppercase tracking-wider">
+                ODOP Fair
+              </span>
+            </div>
+            
+            <div class="p-6">
+              <div class="flex items-center gap-2 text-xs text-amber-800 font-semibold mb-2">
+                <i class="fa-solid fa-shop"></i> State Emporium
+              </div>
+              <h3 class="font-serif font-bold text-lg text-gray-900 group-hover:text-brand-crimson transition">
+                One District One Product (ODOP) State Fairs
+              </h3>
+              <p class="text-xs text-gray-600 mt-2 leading-relaxed">
+                Direct retail presence across regional state trade fairs, connecting retail buyers directly with Khajani Welfare Society women’s self-help groups without middle-tier distributor markups.
+              </p>
+            </div>
+          </div>
+
+          <div class="px-6 pb-6 pt-2 border-t border-gray-100 flex items-center justify-between">
+            <span class="text-[11px] font-bold text-gray-500 uppercase">Varanasi &bull; Agra &bull; Mathura</span>
+            <button onclick="openModal('catalogueInquiryModal')" class="text-xs font-bold text-brand-crimson hover:underline">
+              Retail Schedule &rarr;
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Product Catalogue Section -->
+  <section id="catalogue" class="py-24 bg-[#FAF7EE] border-b border-amber-900/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-14">
+        <span class="text-xs uppercase tracking-widest text-brand-gold font-bold">Comprehensive Product Lineup</span>
+        <h2 class="font-serif text-3xl md:text-4xl font-bold text-brand-deepGreen mt-2">
+          Official Product Catalogue (2026 Editions)
+        </h2>
+        <p class="text-gray-600 text-sm md:text-base mt-3">
+          Explore all 4 pages of the official Khajani Welfare Society & Braj Surbhi product line. Click any page to zoom in, view details, or place a bulk organizational order.
+        </p>
+      </div>
+
+      <!-- Catalogue Page Selector Tabs -->
+      <div class="flex flex-wrap items-center justify-center gap-2 mb-10">
+        <button onclick="selectCataloguePage(0)" id="catTab0" class="cat-tab px-4 py-2 rounded-full text-xs font-bold transition bg-brand-deepGreen text-white shadow">
+          Page 1 &bull; Cover & Overview
+        </button>
+        <button onclick="selectCataloguePage(1)" id="catTab1" class="cat-tab px-4 py-2 rounded-full text-xs font-bold transition bg-white text-gray-700 border border-gray-300 hover:bg-gray-100">
+          Page 2 &bull; Incense & Dhoop
+        </button>
+        <button onclick="selectCataloguePage(2)" id="catTab2" class="cat-tab px-4 py-2 rounded-full text-xs font-bold transition bg-white text-gray-700 border border-gray-300 hover:bg-gray-100">
+          Page 3 &bull; Havan Cups & Samagri
+        </button>
+        <button onclick="selectCataloguePage(3)" id="catTab3" class="cat-tab px-4 py-2 rounded-full text-xs font-bold transition bg-white text-gray-700 border border-gray-300 hover:bg-gray-100">
+          Page 4 &bull; Heritage Crafts & GI
+        </button>
+      </div>
+
+      <!-- Interactive Flip / Large Preview Viewer -->
+      <div class="bg-white rounded-3xl p-4 md:p-8 shadow-2xl border border-brand-gold/30 max-w-5xl mx-auto">
+        <div class="relative bg-gray-900 rounded-2xl overflow-hidden flex items-center justify-center min-h-[460px] md:min-h-[620px] page-sheet">
+          
+          <!-- Image Element -->
+          <img 
+            id="activeCatalogueImg" 
+            src="https://res.cloudinary.com/dpeijmtb6/image/upload/f_auto,q_auto,w_1400/v1787156772/1_20260819_214341_0000_jcziap.png" 
+            alt="Catalogue Page Preview" 
+            class="max-h-[85vh] w-auto object-contain cursor-zoom-in transition-all duration-300 select-none"
+            onclick="zoomCatalogueModal()"
+          />
+
+          <!-- Navigation Arrows -->
+          <button onclick="prevCataloguePage()" aria-label="Previous Page" class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/80 hover:bg-white text-gray-900 shadow-lg flex items-center justify-center text-lg transition">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+
+          <button onclick="nextCataloguePage()" aria-label="Next Page" class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/80 hover:bg-white text-gray-900 shadow-lg flex items-center justify-center text-lg transition">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+
+          <!-- Floating Info Pill -->
+          <div class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/75 backdrop-blur-md px-4 py-1.5 rounded-full text-white text-xs font-medium flex items-center gap-3">
+            <span id="cataloguePageIndicator">Page 1 of 4</span>
+            <span class="text-white/40">&bull;</span>
+            <button onclick="zoomCatalogueModal()" class="hover:text-brand-gold underline flex items-center gap-1">
+              <i class="fa-solid fa-maximize"></i> Fullscreen Zoom
+            </button>
+          </div>
+
+        </div>
+
+        <!-- 4 Page Thumbnails Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
+          
+          <div onclick="selectCataloguePage(0)" class="thumb-card cursor-pointer rounded-xl border-2 border-brand-gold p-1 bg-white hover:opacity-90 transition">
+            <img src="https://res.cloudinary.com/dpeijmtb6/image/upload/f_auto,q_auto,w_300/v1787156772/1_20260819_214341_0000_jcziap.png" alt="Thumb Page 1" class="rounded-lg h-24 w-full object-cover">
+            <span class="block text-center text-[11px] font-bold text-gray-700 mt-1">Page 1 (Cover)</span>
+          </div>
+
+          <div onclick="selectCataloguePage(1)" class="thumb-card cursor-pointer rounded-xl border-2 border-transparent p-1 bg-white hover:opacity-90 transition">
+            <img src="https://res.cloudinary.com/dpeijmtb6/image/upload/f_auto,q_auto,w_300/v1787156772/2_20260819_214342_0001_tumjke.png" alt="Thumb Page 2" class="rounded-lg h-24 w-full object-cover">
+            <span class="block text-center text-[11px] font-bold text-gray-700 mt-1">Page 2</span>
+          </div>
+
+          <div onclick="selectCataloguePage(2)" class="thumb-card cursor-pointer rounded-xl border-2 border-transparent p-1 bg-white hover:opacity-90 transition">
+            <img src="https://res.cloudinary.com/dpeijmtb6/image/upload/f_auto,q_auto,w_300/v1787156773/3_20260819_214342_0002_mbkbmd.png" alt="Thumb Page 3" class="rounded-lg h-24 w-full object-cover">
+            <span class="block text-center text-[11px] font-bold text-gray-700 mt-1">Page 3</span>
+          </div>
+
+          <div onclick="selectCataloguePage(3)" class="thumb-card cursor-pointer rounded-xl border-2 border-transparent p-1 bg-white hover:opacity-90 transition">
+            <img src="https://res.cloudinary.com/dpeijmtb6/image/upload/f_auto,q_auto,w_300/v1787156773/4_20260819_214342_0003_he4csd.png" alt="Thumb Page 4" class="rounded-lg h-24 w-full object-cover">
+            <span class="block text-center text-[11px] font-bold text-gray-700 mt-1">Page 4</span>
+          </div>
+
+        </div>
+
+        <!-- Catalogue CTA Row -->
+        <div class="mt-8 pt-6 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="text-xs text-gray-600 text-center sm:text-left">
+            <strong>B2B & Institutional Procurement:</strong> Custom bulk packaging available for temples, corporates, and festivals.
+          </div>
+          <div class="flex items-center gap-3">
+            <button onclick="openModal('catalogueInquiryModal')" class="px-5 py-2.5 rounded-xl bg-brand-deepGreen text-white text-xs font-semibold hover:bg-black transition shadow">
+              Request Price List
+            </button>
+            <button onclick="downloadCatalogueLink()" class="px-5 py-2.5 rounded-xl border border-gray-300 text-gray-800 text-xs font-semibold hover:bg-gray-100 transition">
+              <i class="fa-solid fa-download"></i> Save Images
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Official Partners & Government Accreditations -->
+  <section id="partners" class="py-20 bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="text-xs uppercase tracking-widest text-brand-gold font-bold">Recognitions & Alliances</span>
+        <h2 class="font-serif text-2xl md:text-3xl font-bold text-gray-900 mt-1">
+          Supported & Accreditated By
+        </h2>
+        <p class="text-xs md:text-sm text-gray-500 mt-2">
+          Working in close synergy with state bodies and intellectual property directorates.
+        </p>
+      </div>
+
+      <!-- Logos Row with Hover Glow -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 items-center">
+        
+        <!-- GI Tag -->
+        <div class="p-6 rounded-2xl bg-[#FAF7EE] border border-brand-gold/20 flex flex-col items-center justify-center hover:shadow-lg transition">
+          <img src="https://res.cloudinary.com/dpeijmtb6/image/upload/v1791130322/GI-Tag-logo_ago2zh.png" alt="Geographical Indications of India" class="h-16 object-contain mb-3">
+          <span class="text-xs font-bold text-gray-800">GI Tag Certified</span>
+          <span class="text-[10px] text-gray-500">Government of India</span>
+        </div>
+
+        <!-- ODOP -->
+        <div class="p-6 rounded-2xl bg-[#FAF7EE] border border-brand-gold/20 flex flex-col items-center justify-center hover:shadow-lg transition">
+          <img src="https://res.cloudinary.com/dpeijmtb6/image/upload/v1791130301/ODOP_qwewmu.png" alt="One District One Product UP" class="h-16 object-contain mb-3">
+          <span class="text-xs font-bold text-gray-800">ODOP Uttar Pradesh</span>
+          <span class="text-[10px] text-gray-500">Department of MSME</span>
+        </div>
+
+        <!-- UPSDM -->
+        <div class="p-6 rounded-2xl bg-[#FAF7EE] border border-brand-gold/20 flex flex-col items-center justify-center hover:shadow-lg transition">
+          <img src="https://res.cloudinary.com/dpeijmtb6/image/upload/v1791130338/u-p-skill-development-mission-logo-png_seeklogo-428101_t2huvn.png" alt="UP Skill Development Mission" class="h-16 object-contain mb-3">
+          <span class="text-xs font-bold text-gray-800">UPSDM Accredited</span>
+          <span class="text-[10px] text-gray-500">Govt. of Uttar Pradesh</span>
+        </div>
+
+        <!-- UPITS 2026 -->
+        <div class="p-6 rounded-2xl bg-[#FAF7EE] border border-brand-gold/20 flex flex-col items-center justify-center hover:shadow-lg transition">
+          <img src="https://res.cloudinary.com/dpeijmtb6/image/upload/v1790191456/UPITS-2026-logo-s-min_nfitgu.png" alt="UP International Trade Show" class="h-16 object-contain mb-3">
+          <span class="text-xs font-bold text-gray-800">UPITS 2026</span>
+          <span class="text-[10px] text-gray-500">Official Exhibitor</span>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Grand Finale Black Footer with Scroll-Magnified Emblem -->
+  <footer id="grandFooter" class="relative bg-brand-charcoal text-white pt-24 pb-12 overflow-hidden border-t-2 border-brand-gold/30">
+    
+    <!-- Background Ambient Lighting -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-brand-gold/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      <!-- Central Grand Finale Scroll-Landing Emblem -->
+      <div class="text-center mb-16 perspective-1000">
+        
+        <div class="relative inline-block">
+          <!-- Magnified Logo that reacts to scroll depth -->
+          <div id="footerGrandLogoContainer" class="w-36 h-36 md:w-44 md:h-44 mx-auto p-4 rounded-3xl bg-gradient-to-b from-white/10 to-white/5 border border-brand-gold/40 shadow-2xl backdrop-blur-md transform-style-3d transition-transform duration-300">
+            <img 
+              id="footerGrandLogo" 
+              src="https://res.cloudinary.com/dpeijmtb6/image/upload/f_auto,q_auto,w_600/v1780481420/yjrsvaizrmprlbrrdsde.png" 
+              alt="Khajani Welfare Society Grand Emblem" 
+              class="w-full h-full object-contain filter drop-shadow-[0_10px_25px_rgba(197,160,89,0.45)]"
+            />
+          </div>
+
+          <!-- Pulsing Rings -->
+          <div class="absolute inset-0 rounded-3xl border border-brand-gold/30 animate-ping opacity-20 pointer-events-none"></div>
+        </div>
+
+        <h3 class="font-serif font-extrabold text-3xl md:text-4xl text-white mt-6 tracking-wide">
+          Khajani Welfare Society
+        </h3>
+        <p class="text-brand-gold text-xs uppercase tracking-widest mt-1 font-semibold">
+          Registered Non-Profit Society &bull; Dedicated to Rural Indian Artisans
+        </p>
+        <p class="text-gray-400 text-xs max-w-xl mx-auto mt-3">
+          Mathura, Uttar Pradesh, India &bull; Inspired by Grassroots Welfare & Institutional Transparency
+        </p>
+
+      </div>
+
+      <!-- Institutional Logos Showcase Bar -->
+      <div class="border-y border-white/10 py-10 my-10">
+        <p class="text-center text-[11px] uppercase tracking-widest text-gray-400 font-bold mb-8">
+          Recognized Heritage & Institutional Alliances
+        </p>
+
+        <div class="flex flex-wrap items-center justify-center gap-8 md:gap-14 opacity-90 hover:opacity-100 transition-opacity">
+          <!-- KWS -->
+          <div class="text-center group">
+            <img src="https://res.cloudinary.com/dpeijmtb6/image/upload/f_auto,q_auto,w_160/v1780481420/yjrsvaizrmprlbrrdsde.png" alt="KWS Logo" class="h-12 w-auto object-contain mx-auto filter brightness-95 group-hover:scale-110 transition">
+            <span class="text-[9px] uppercase tracking-wider text-gray-400 block mt-1 font-semibold">KWS Society</span>
+          </div>
+
+          <!-- Braj Surbhi -->
+          <div class="text-center group">
+            <img src="https://res.cloudinary.com/dpeijmtb6/image/upload/f_auto,q_auto,w_160/v1791130454/file_00000000d9748246822b57ba7ad9acd6_ey0rri.png" alt="Braj Surbhi" class="h-12 w-auto object-contain mx-auto filter brightness-95 group-hover:scale-110 transition">
+            <span class="text-[9px] uppercase tracking-wider text-gray-400 block mt-1 font-semibold">Braj Surbhi</span>
+          </div>
+
+          <!-- GI Tag -->
+          <div class="text-center group">
+            <img src="https://res.cloudinary.com/dpeijmtb6/image/upload/f_auto,q_auto,w_160/v1791130322/GI-Tag-logo_ago2zh.png" alt="GI Tag" class="h-12 w-auto object-contain mx-auto filter brightness-95 group-hover:scale-110 transition">
+            <span class="text-[9px] uppercase tracking-wider text-gray-400 block mt-1 font-semibold">GI Certified</span>
+          </div>
+
+          <!-- ODOP -->
+          <div class="text-center group">
+            <img src="https://res.cloudinary.com/dpeijmtb6/image/upload/f_auto,q_auto,w_160/v1791130301/ODOP_qwewmu.png" alt="ODOP" class="h-12 w-auto object-contain mx-auto filter brightness-95 group-hover:scale-110 transition">
+            <span class="text-[9px] uppercase tracking-wider text-gray-400 block mt-1 font-semibold">ODOP UP</span>
+          </div>
+
+          <!-- UPSDM -->
+          <div class="text-center group">
+            <img src="https://res.cloudinary.com/dpeijmtb6/image/upload/f_auto,q_auto,w_160/v1791130338/u-p-skill-development-mission-logo-png_seeklogo-428101_t2huvn.png" alt="UPSDM" class="h-12 w-auto object-contain mx-auto filter brightness-95 group-hover:scale-110 transition">
+            <span class="text-[9px] uppercase tracking-wider text-gray-400 block mt-1 font-semibold">UPSDM Skill</span>
+          </div>
+
+          <!-- UPITS 2026 -->
+          <div class="text-center group">
+            <img src="https://res.cloudinary.com/dpeijmtb6/image/upload/f_auto,q_auto,w_160/v1790191456/UPITS-2026-logo-s-min_nfitgu.png" alt="UPITS 2026" class="h-12 w-auto object-contain mx-auto filter brightness-95 group-hover:scale-110 transition">
+            <span class="text-[9px] uppercase tracking-wider text-gray-400 block mt-1 font-semibold">UPITS 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Links & Quick Navigation -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-xs text-gray-400 py-6">
+        <div>
+          <h4 class="text-white font-serif text-sm font-semibold mb-3">Headquarters</h4>
+          <p class="leading-relaxed">Khajani Welfare Society<br>Mathura - Vrindavan Region,<br>Uttar Pradesh, India.</p>
+          <p class="mt-2 text-brand-gold">Email: info@khajaniwelfare.org</p>
+        </div>
+
+        <div>
+          <h4 class="text-white font-serif text-sm font-semibold mb-3">Initiatives</h4>
+          <ul class="space-y-2">
+            <li><a href="#braj-surbhi" class="hover:text-white transition">Braj Surbhi Natural Dhoop</a></li>
+            <li><a href="#impact" class="hover:text-white transition">Temple Waste Flower Upcycling</a></li>
+            <li><a href="#catalogue" class="hover:text-white transition">Panchgavya Havan Products</a></li>
+            <li><a href="#partners" class="hover:text-white transition">Sanjhi Paper Art & Brass Craft</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-serif text-sm font-semibold mb-3">Trade & Expos</h4>
+          <ul class="space-y-2">
+            <li><a href="#exhibitions" class="hover:text-white transition">UP International Trade Show 2026</a></li>
+            <li><a href="#partners" class="hover:text-white transition">GI Tag National Pavilions</a></li>
+            <li><a href="#catalogue" class="hover:text-white transition">ODOP Buyer Seller Meets</a></li>
+            <li><button onclick="openModal('catalogueInquiryModal')" class="hover:text-white transition text-left">Corporate Gifting Catalogues</button></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-serif text-sm font-semibold mb-3">Connect With KWS</h4>
+          <p class="mb-3">Subscribe for artisan updates, new catalogue editions, and state fair notifications.</p>
+          <div class="flex items-center">
+            <input type="email" placeholder="Enter your email" class="w-full bg-white/10 px-3 py-2 rounded-l-lg text-white text-xs focus:outline-none focus:ring-1 focus:ring-brand-gold">
+            <button onclick="handleSubscribe()" class="bg-brand-crimson text-white px-3 py-2 rounded-r-lg font-bold hover:bg-red-700 transition">
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Copyright & Bottom Credit -->
+      <div class="border-t border-white/10 pt-8 mt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-gray-500 gap-4">
+        <p>&copy; 2026 Khajani Welfare Society (KWS). All rights reserved.</p>
+        <p class="flex items-center gap-3">
+          <span>In service to Mathura-Braj Artisans</span>
+          <span>&bull;</span>
+          <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="text-brand-gold hover:underline">
+            Back to Top <i class="fa-solid fa-arrow-up ml-1"></i>
+          </button>
+        </p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Modal 1: Catalogue Zoom Fullscreen Lightbox -->
+  <div id="zoomModal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="relative max-w-5xl w-full h-[90vh] flex flex-col items-center justify-center">
+      <button onclick="closeModal('zoomModal')" aria-label="Close Lightbox" class="absolute top-2 right-2 text-white/80 hover:text-white text-3xl p-2 z-10">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <img id="modalZoomImg" src="" alt="Zoomed Catalogue" class="max-h-[82vh] max-w-full object-contain rounded-lg shadow-2xl">
+      <div class="mt-4 flex items-center gap-4">
+        <button onclick="prevCataloguePage(); updateZoomModalSrc();" class="text-white bg-white/20 hover:bg-white/30 px-4 py-2 rounded-full text-xs font-semibold">
+          <i class="fa-solid fa-chevron-left mr-1"></i> Previous Page
+        </button>
+        <button onclick="nextCataloguePage(); updateZoomModalSrc();" class="text-white bg-white/20 hover:bg-white/30 px-4 py-2 rounded-full text-xs font-semibold">
+          Next Page <i class="fa-solid fa-chevron-right ml-1"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Bulk Catalogue Inquiry Modal -->
+  <div id="catalogueInquiryModal" class="fixed inset-0 z-50 hidden bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 md:p-8 shadow-2xl border border-brand-gold/40 relative">
+      <button onclick="closeModal('catalogueInquiryModal')" class="absolute top-5 right-5 text-gray-400 hover:text-gray-700 text-xl">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-4">
+        <img src="https://res.cloudinary.com/dpeijmtb6/image/upload/f_auto,q_auto,w_100/v1780481420/yjrsvaizrmprlbrrdsde.png" alt="KWS" class="w-10 h-10 object-contain">
+        <div>
+          <h3 class="font-serif font-bold text-xl text-gray-900">Product & Bulk Order Inquiry</h3>
+          <p class="text-xs text-gray-500">Braj Surbhi & Khajani Handicraft Collection</p>
+        </div>
+      </div>
+
+      <form onsubmit="handleInquirySubmit(event)" class="space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Your Name / Organization</label>
+          <input type="text" required placeholder="e.g. Radhe Trading / Temple Trust" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-xl focus:ring-1 focus:ring-brand-gold focus:outline-none">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Email</label>
+            <input type="email" required placeholder="name@domain.com" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-xl focus:ring-1 focus:ring-brand-gold focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Phone / WhatsApp</label>
+            <input type="tel" required placeholder="+91 98XXXXXXXX" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-xl focus:ring-1 focus:ring-brand-gold focus:outline-none">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Select Catalogue Section</label>
+          <select class="w-full px-3 py-2 text-sm border border-gray-300 rounded-xl focus:ring-1 focus:ring-brand-gold focus:outline-none">
+            <option>All 4 Catalogue Pages (Full Price List)</option>
+            <option>Braj Surbhi Charcoal-Free Dhoop & Incense</option>
+            <option>Organic Havan Cups & Samagri</option>
+            <option>Mathura GI Tag Brass & Sanjhi Crafts</option>
+            <option>Corporate Diwali & Festive Gift Hampers</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Message or Order Quantity</label>
+          <textarea rows="3" placeholder="Specify requirements, delivery location, or trade fair inquiry..." class="w-full px-3 py-2 text-sm border border-gray-300 rounded-xl focus:ring-1 focus:ring-brand-gold focus:outline-none"></textarea>
+        </div>
+
+        <button type="submit" class="w-full py-3 rounded-xl bg-brand-deepGreen text-white text-xs uppercase font-bold tracking-wider hover:bg-black transition shadow-md">
+          Submit Official Inquiry
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 3: Artisan Support & Donation Modal -->
+  <div id="donateModal" class="fixed inset-0 z-50 hidden bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-brand-gold/40 relative text-center">
+      <button onclick="closeModal('donateModal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-xl">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="w-14 h-14 mx-auto rounded-full bg-amber-50 border border-brand-gold flex items-center justify-center text-brand-crimson text-2xl mb-3">
+        <i class="fa-solid fa-hand-holding-heart"></i>
+      </div>
+
+      <h3 class="font-serif font-bold text-xl text-gray-900">Support Rural Women Artisans</h3>
+      <p class="text-xs text-gray-600 mt-1 mb-4">
+        Contributions enable the purchase of flower recycling pulverizers, sanitary drying tables, and skill certifications under UPSDM.
       </p>
-    </section>
 
-    <section class="cards-grid">
-      <div class="card">
-        <h3>Zero JavaScript</h3>
-        <p>Powered by CSS scroll-driven keyframes, keeping CPU usage minimal and motion fluid.</p>
+      <div class="grid grid-cols-3 gap-2 mb-4">
+        <button onclick="setDonationAmt(1100)" class="p-2 border border-gray-200 rounded-xl text-xs font-bold hover:border-brand-gold hover:bg-amber-50">?1,100</button>
+        <button onclick="setDonationAmt(2500)" class="p-2 border border-brand-gold bg-amber-50 rounded-xl text-xs font-bold text-amber-900">?2,500</button>
+        <button onclick="setDonationAmt(5100)" class="p-2 border border-gray-200 rounded-xl text-xs font-bold hover:border-brand-gold hover:bg-amber-50">?5,100</button>
       </div>
-      <div class="card">
-        <h3>Cloudinary Optimized</h3>
-        <p>The image delivers in modern WebP/AVIF format with tailored pixel dimensions for high-DPI displays.</p>
-      </div>
-      <div class="card">
-        <h3>Perspective Ready</h3>
-        <p>3D transforms stay crisp from edge to edge without clipping or pixelation.</p>
-      </div>
-    </section>
-  </main>
 
-  <!-- JavaScript fallback for browsers without scroll-timeline support -->
+      <div class="bg-gray-50 p-3 rounded-xl border border-gray-200 text-left text-xs mb-4">
+        <div class="flex justify-between py-1">
+          <span class="text-gray-500">Beneficiary:</span>
+          <span class="font-bold text-gray-800">Khajani Welfare Society</span>
+        </div>
+        <div class="flex justify-between py-1">
+          <span class="text-gray-500">Bank:</span>
+          <span class="font-bold text-gray-800">State Bank of India</span>
+        </div>
+        <div class="flex justify-between py-1">
+          <span class="text-gray-500">Registration:</span>
+          <span class="font-bold text-green-700">Society Reg. Verified</span>
+        </div>
+      </div>
+
+      <button onclick="alertNotification('Thank you for initiating support! An official receipt and bank details have been forwarded to your session.')" class="w-full py-3 rounded-xl bg-brand-crimson text-white text-xs uppercase font-bold tracking-wider hover:bg-red-800 transition">
+        Proceed with Artisan Sponsorship
+      </button>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toastNotification" class="fixed bottom-6 right-6 z-50 hidden bg-brand-deepGreen text-white px-5 py-3 rounded-xl shadow-2xl border border-brand-gold/40 text-xs flex items-center gap-3">
+    <i class="fa-solid fa-circle-check text-brand-gold text-base"></i>
+    <span id="toastMsg">Operation successful</span>
+  </div>
+
   <script>
-    if (!CSS.supports('animation-timeline', 'scroll()')) {
-      const logo = document.querySelector('.scroll-logo');
-      window.addEventListener('scroll', () => {
-        window.requestAnimationFrame(() => {
-          const scrollProgress = Math.min(window.scrollY / 450, 1);
-          const rotation = scrollProgress * 360;
-          const scale = 1 - (scrollProgress * 0.1);
-          logo.style.transform = `rotateY(${rotation}deg) scale(${scale})`;
-        });
-      }, { passive: true });
+    /* Catalogue Data Array with the 4 Cloudinary Pages */
+    const cataloguePages = [
+      {
+        url: 'https://res.cloudinary.com/dpeijmtb6/image/upload/f_auto,q_auto,w_1400/v1787156772/1_20260819_214341_0000_jcziap.png',
+        title: 'Page 1 &bull; Cover & Heritage Introduction',
+        label: 'Page 1 of 4'
+      },
+      {
+        url: 'https://res.cloudinary.com/dpeijmtb6/image/upload/f_auto,q_auto,w_1400/v1787156772/2_20260819_214342_0001_tumjke.png',
+        title: 'Page 2 &bull; Sacred Dhoop & Incense Range',
+        label: 'Page 2 of 4'
+      },
+      {
+        url: 'https://res.cloudinary.com/dpeijmtb6/image/upload/f_auto,q_auto,w_1400/v1787156773/3_20260819_214342_0002_mbkbmd.png',
+        title: 'Page 3 &bull; Organic Havan Cups & Samagri',
+        label: 'Page 3 of 4'
+      },
+      {
+        url: 'https://res.cloudinary.com/dpeijmtb6/image/upload/f_auto,q_auto,w_1400/v1787156773/4_20260819_214342_0003_he4csd.png',
+        title: 'Page 4 &bull; Artisanal GI Tag & Craft Heritage',
+        label: 'Page 4 of 4'
+      }
+    ];
+
+    let currentCatalogueIndex = 0;
+
+    /* Function to switch active catalogue page */
+    function selectCataloguePage(index) {
+      currentCatalogueIndex = index;
+      const img = document.getElementById('activeCatalogueImg');
+      const indicator = document.getElementById('cataloguePageIndicator');
+      
+      // Update preview with fade transition
+      img.style.opacity = '0.3';
+      setTimeout(() => {
+        img.src = cataloguePages[index].url;
+        indicator.innerHTML = cataloguePages[index].label;
+        img.style.opacity = '1';
+      }, 150);
+
+      // Update Tab Styles
+      document.querySelectorAll('.cat-tab').forEach((tab, i) => {
+        if (i === index) {
+          tab.classList.remove('bg-white', 'text-gray-700', 'border', 'border-gray-300');
+          tab.classList.add('bg-brand-deepGreen', 'text-white', 'shadow');
+        } else {
+          tab.classList.remove('bg-brand-deepGreen', 'text-white', 'shadow');
+          tab.classList.add('bg-white', 'text-gray-700', 'border', 'border-gray-300');
+        }
+      });
+
+      // Update Thumbnail borders
+      document.querySelectorAll('.thumb-card').forEach((thumb, i) => {
+        if (i === index) {
+          thumb.classList.remove('border-transparent');
+          thumb.classList.add('border-brand-gold');
+        } else {
+          thumb.classList.remove('border-brand-gold');
+          thumb.classList.add('border-transparent');
+        }
+      });
     }
+
+    function prevCataloguePage() {
+      const newIdx = (currentCatalogueIndex - 1 + cataloguePages.length) % cataloguePages.length;
+      selectCataloguePage(newIdx);
+    }
+
+    function nextCataloguePage() {
+      const newIdx = (currentCatalogueIndex + 1) % cataloguePages.length;
+      selectCataloguePage(newIdx);
+    }
+
+    function zoomCatalogueModal() {
+      const modal = document.getElementById('zoomModal');
+      const modalImg = document.getElementById('modalZoomImg');
+      modalImg.src = cataloguePages[currentCatalogueIndex].url;
+      modal.classList.remove('hidden');
+    }
+
+    function updateZoomModalSrc() {
+      const modalImg = document.getElementById('modalZoomImg');
+      modalImg.src = cataloguePages[currentCatalogueIndex].url;
+    }
+
+    function downloadCatalogueLink() {
+      const activeUrl = cataloguePages[currentCatalogueIndex].url;
+      const link = document.createElement('a');
+      link.href = activeUrl;
+      link.target = '_blank';
+      link.download = `Khajani_Catalogue_Page_${currentCatalogueIndex + 1}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      alertNotification('Opening high-resolution page in new window.');
+    }
+
+    /* Modal Controllers */
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function handleInquirySubmit(e) {
+      e.preventDefault();
+      closeModal('catalogueInquiryModal');
+      alertNotification('Inquiry registered! Our Mathura artisan desk will contact you via WhatsApp.');
+    }
+
+    function handleSubscribe() {
+      alertNotification('Subscribed to Khajani Welfare Society newsletter!');
+    }
+
+    function alertNotification(msg) {
+      const toast = document.getElementById('toastNotification');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.innerText = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 4000);
+    }
+
+    function setDonationAmt(amt) {
+      alertNotification(`Selected sponsorship tier: ?${amt}`);
+    }
+
+    /* Mobile Menu Toggle */
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+
+    // Scroll reactivity listener
+    const navLogo = document.getElementById('navKwsLogo');
+    const impactProgressBar = document.getElementById('impactScrollProgress');
+    const grandFooterLogoContainer = document.getElementById('footerGrandLogoContainer');
+    const grandFooterLogo = document.getElementById('footerGrandLogo');
+    const impactSection = document.getElementById('impact');
+
+    window.addEventListener('scroll', () => {
+      window.requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
+        const totalDocHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = totalDocHeight > 0 ? (scrollY / totalDocHeight) : 0;
+
+        // 1. Navbar Logo 3D Spin & Scale Reactivity
+        // Rotates smoothly as user scrolls, with 3D angle and dynamic amber glow
+        const rotationY = (scrollY * 0.4) % 360;
+        const navScale = Math.max(0.85, 1 - (scrollY / 1800));
+        
+        if (navLogo) {
+          navLogo.style.transform = `rotateY(${rotationY}deg) scale(${navScale})`;
+          const glowIntensity = Math.abs(Math.sin((rotationY * Math.PI) / 180)) * 14;
+          navLogo.style.filter = `drop-shadow(0 0 ${glowIntensity}px rgba(197, 160, 89, 0.7))`;
+        }
+
+        // 2. Translucent Area of Impact scroll meter
+        if (impactSection) {
+          const rect = impactSection.getBoundingClientRect();
+          const winHeight = window.innerHeight;
+          if (rect.top < winHeight && rect.bottom > 0) {
+            const visibleProgress = Math.min(1, Math.max(0, (winHeight - rect.top) / (winHeight + rect.height)));
+            if (impactProgressBar) {
+              impactProgressBar.style.width = `${visibleProgress * 100}%`;
+            }
+          }
+        }
+
+        // 3. Grand Finale Footer Animation:
+        // As the user approaches the bottom of the page, the footer logo spins in 3D,
+        // magnifies, and settles into the dark footer.
+        if (grandFooterLogoContainer && grandFooterLogo) {
+          const distanceToBottom = totalDocHeight - scrollY;
+          if (distanceToBottom < 850) {
+            // Approaching footer
+            const settleFactor = 1 - Math.min(1, Math.max(0, distanceToBottom / 850));
+            const footerRotation = (1 - settleFactor) * 180;
+            const footerScale = 0.8 + (settleFactor * 0.35); // expands up to 1.15x
+            grandFooterLogoContainer.style.transform = `rotateY(${footerRotation}deg) scale(${footerScale})`;
+            grandFooterLogo.style.filter = `drop-shadow(0 15px 35px rgba(224, 159, 62, ${0.3 + (settleFactor * 0.5)}))`;
+          } else {
+            grandFooterLogoContainer.style.transform = 'rotateY(0deg) scale(1)';
+          }
+        }
+
+      });
+    }, { passive: true });
   </script>
 
 </body>
